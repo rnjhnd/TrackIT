@@ -20,8 +20,8 @@ A full-stack internal IT asset management platform with role-based access contro
 
 | Role     | Email                   | Password      |
 |----------|-------------------------|---------------|
-| Admin    | admin@system.com        | admin123      |
-| Employee | employee1@system.com    | employee123   |
+| Admin    | EMP-001                 | admin123      |
+| Employee | EMP-002                 | employee123   |
 
 > ⚠️ First load may take ~30 seconds as the free Render instance wakes from sleep.
 
@@ -70,23 +70,6 @@ npm install
 # VITE_API_URL=http://localhost:5000
 npm run dev            # starts on http://localhost:5173
 ```
-
----
-
-## Environment Variables
-
-### Backend (`backend/.env`)
-| Variable       | Description                              |
-|----------------|------------------------------------------|
-| `DATABASE_URL` | Neon PostgreSQL connection string        |
-| `JWT_SECRET`   | Strong random secret for JWT signing     |
-| `FRONTEND_URL` | Deployed frontend URL (used for CORS)    |
-| `PORT`         | Server port (default: 5000)              |
-
-### Frontend (Vercel → Environment Variables)
-| Variable       | Description                              |
-|----------------|------------------------------------------|
-| `VITE_API_URL` | Deployed backend URL from Render         |
 
 ---
 
