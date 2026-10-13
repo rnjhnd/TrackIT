@@ -1,47 +1,113 @@
-# Internal Asset Portal
+# TrackIT — IT Asset Operations Portal
 
-A full-stack enterprise Internal Asset Tracking system built with React, Express, Prisma, and PostgreSQL (Neon).
+A full-stack internal IT asset management platform with role-based access control, real-time inventory dashboards, and employee lifecycle tracking.
+
+🔗 **Live Demo:** [trackit-portal.vercel.app](https://trackit-portal.vercel.app)
+
+---
+
+## Features
+
+- **Role-Based Access Control** — Admin and Employee roles with distinct permissions
+- **Asset Management** — Create, assign, update, and retire hardware assets
+- **Employee Directory** — Register users, manage accounts, and track assignments
+- **Analytics Dashboard** — Asset status breakdown, aging reports, and activity timelines
+- **Secure Auth** — JWT authentication with HTTP-only token handling and rate limiting
+
+---
 
 ## Demo Credentials
 
-| Account | Email | Password |
-|---------|-------|----------|
-| Admin | admin@system.com | admin123 |
-| Employee | employee1@system.com | employee123 |
+| Role     | Email                   | Password      |
+|----------|-------------------------|---------------|
+| Admin    | admin@system.com        | admin123      |
+| Employee | employee1@system.com    | employee123   |
+
+> ⚠️ First load may take ~30 seconds as the free Render instance wakes from sleep.
+
+---
 
 ## Tech Stack
 
-- **Frontend:** React 19 + Vite + TailwindCSS 4
-- **Backend:** Express 5 + Prisma ORM
-- **Database:** PostgreSQL (Neon)
-- **Auth:** JWT + bcryptjs
+| Layer      | Technology                                      |
+|------------|-------------------------------------------------|
+| Frontend   | React 19, Vite, TypeScript, TailwindCSS 4       |
+| Backend    | Node.js, Express 5, TypeScript                  |
+| ORM        | Prisma 5                                        |
+| Database   | PostgreSQL via Neon (serverless)                |
+| Auth       | JWT + bcryptjs                                  |
+| Hosting    | Vercel (frontend) · Render (backend)            |
+
+---
 
 ## Local Development
 
-```bash
-# Backend
-cd backend
-npm install
-npm run dev
+### Prerequisites
+- Node.js 18+
+- A PostgreSQL database (or a free [Neon](https://neon.tech) instance)
 
-# Frontend
-cd frontend
-npm install
-npm run dev
+### 1. Clone the repository
+```bash
+git clone https://github.com/rnjhnd/TrackIT.git
+cd TrackIT
 ```
 
-## Deployment
+### 2. Backend setup
+```bash
+cd backend
+npm install
+cp .env.example .env   # fill in your DATABASE_URL and JWT_SECRET
+npx prisma migrate dev
+npm run seed           # seeds demo users and sample assets
+npm run dev            # starts on http://localhost:5000
+```
 
-- **Backend:** Render (Web Service)
-- **Frontend:** Vercel
-- **Database:** Neon PostgreSQL
+### 3. Frontend setup
+```bash
+cd frontend
+npm install
+# create frontend/.env with:
+# VITE_API_URL=http://localhost:5000
+npm run dev            # starts on http://localhost:5173
+```
+
+---
 
 ## Environment Variables
 
-### Backend (Render)
-- `DATABASE_URL` — Neon PostgreSQL connection string
-- `JWT_SECRET` — Secret key for JWT signing
-- `FRONTEND_URL` — Deployed frontend URL (for CORS)
+### Backend (`backend/.env`)
+| Variable       | Description                              |
+|----------------|------------------------------------------|
+| `DATABASE_URL` | Neon PostgreSQL connection string        |
+| `JWT_SECRET`   | Strong random secret for JWT signing     |
+| `FRONTEND_URL` | Deployed frontend URL (used for CORS)    |
+| `PORT`         | Server port (default: 5000)              |
 
-### Frontend (Vercel)
-- `VITE_API_URL` — Deployed backend URL
+### Frontend (Vercel → Environment Variables)
+| Variable       | Description                              |
+|----------------|------------------------------------------|
+| `VITE_API_URL` | Deployed backend URL from Render         |
+
+---
+
+## Project Structure
+
+```
+TrackIT/
+├── frontend/          # React + Vite client
+│   └── src/
+│       ├── api/       # Axios API layer
+│       ├── components/# Reusable UI components and modals
+│       ├── contexts/  # Auth context (JWT state)
+│       ├── pages/     # Route-level page components
+│       └── types/     # Global TypeScript interfaces
+│
+├── backend/           # Express API server
+│   └── src/
+│       ├── middleware/# Auth + role guards
+│       ├── routes/    # assets, users, auth, categories
+│       └── types/     # Express request augmentation
+│
+├── render.yaml        # Render deployment blueprint
+└── README.md
+```
