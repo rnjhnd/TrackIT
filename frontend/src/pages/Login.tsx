@@ -90,9 +90,15 @@ const Login: React.FC = () => {
             <div className="w-11 h-11 bg-white text-[#2563eb] flex items-center justify-center font-mono shrink-0 shadow-[4px_4px_0_0_#1e3a8a]">
               <Server size={22} />
             </div>
-            <span className="font-mono font-bold tracking-widest text-xs uppercase border-b-2 border-white/60 pb-0.5">
-              Enterprise IT Portal
-            </span>
+            <div className="flex items-center gap-2.5">
+              <span className="text-lg font-black tracking-tight uppercase leading-none">
+                Track<span className="text-blue-200">IT</span>
+              </span>
+              <span className="text-white/40 font-mono text-xs font-bold">//</span>
+              <span className="font-mono font-bold tracking-widest text-[11px] uppercase bg-blue-900/50 border border-blue-300/30 px-2 py-0.5 text-blue-100">
+                IT Asset Operations
+              </span>
+            </div>
           </div>
 
           <div className="hidden sm:flex items-center gap-2 font-mono text-[11px] font-bold uppercase bg-blue-900/60 border border-blue-400/40 px-2.5 py-1 text-blue-100">
