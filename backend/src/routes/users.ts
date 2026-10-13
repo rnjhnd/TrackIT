@@ -2,6 +2,7 @@ import { Router } from 'express';
 import prisma from '../db';
 import bcrypt from 'bcryptjs';
 import { authenticateToken, requireAdmin } from '../middleware/auth';
+import { Prisma } from '@prisma/client';
 
 const router = Router();
 
@@ -63,8 +64,8 @@ router.get('/', authenticateToken, requireAdmin, async (req, res) => {
     const sortField = validSortFields.includes(sortBy as string) ? (sortBy as string) : 'createdAt';
     const sortDir = validSortOrders.includes(sortOrder as string) ? (sortOrder as string) : 'desc';
 
-    const orderByClause = [
-      { [sortField]: sortDir },
+    const orderByClause: Prisma.UserOrderByWithRelationInput[] = [
+      { [sortField]: sortDir as Prisma.SortOrder },
       { id: 'asc' }
     ];
 
@@ -100,7 +101,7 @@ router.get('/', authenticateToken, requireAdmin, async (req, res) => {
 });
 // Edit user details (Admin only)
 router.put('/:id', authenticateToken, requireAdmin, async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   let { name, employeeId, role, department } = req.body;
   
   try {
@@ -163,7 +164,7 @@ router.put('/:id', authenticateToken, requireAdmin, async (req, res) => {
 
 // Toggle user active status (Admin only)
 router.put('/:id/status', authenticateToken, requireAdmin, async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   try {
     const user = await prisma.user.findUnique({ where: { id } });
     if (!user) return res.status(404).json({ error: 'User not found' });
@@ -194,7 +195,7 @@ router.put('/:id/status', authenticateToken, requireAdmin, async (req, res) => {
 
 // Force reset user password (Admin only)
 router.put('/:id/force-password', authenticateToken, requireAdmin, async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   const { newPassword } = req.body;
   
   if (!newPassword || newPassword.length < 8) {
@@ -225,7 +226,7 @@ router.put('/:id/force-password', authenticateToken, requireAdmin, async (req, r
 
 // Hard delete a user (Admin only, requires 0 assignments)
 router.delete('/:id', authenticateToken, requireAdmin, async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   try {
     const user = await prisma.user.findUnique({
       where: { id },

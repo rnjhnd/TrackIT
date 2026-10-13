@@ -166,7 +166,7 @@ router.post('/', authenticateToken, requireAdmin, async (req, res) => {
 // Edit Asset Details (Admin Only)
 router.put('/:id', authenticateToken, requireAdmin, async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const { name, serialNumber, purchaseDate, category } = req.body;
     
     if (purchaseDate && new Date(purchaseDate).getTime() > new Date().getTime()) {
@@ -345,7 +345,7 @@ router.post('/bulk', authenticateToken, requireAdmin, async (req, res) => {
 // Assign an asset to a user (Admin only)
 router.post('/:id/assign', authenticateToken, requireAdmin, async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const { userId } = req.body;
 
     const asset = await prisma.asset.findUnique({ where: { id } });
@@ -381,7 +381,7 @@ router.post('/:id/assign', authenticateToken, requireAdmin, async (req, res) => 
 // Return an asset (Admin only)
 router.post('/:id/return', authenticateToken, requireAdmin, async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
 
     // Find the active assignment
     const activeAssignment = await prisma.assignment.findFirst({
@@ -412,7 +412,7 @@ router.post('/:id/return', authenticateToken, requireAdmin, async (req, res) => 
 
 // Get Asset History (Admin Only)
 router.get('/:id/history', authenticateToken, requireAdmin, async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   try {
     const history = await prisma.assignment.findMany({
       where: { assetId: id },
@@ -431,7 +431,7 @@ router.get('/:id/history', authenticateToken, requireAdmin, async (req, res) => 
 
 // Update Asset Status (Admin Only)
 router.put('/:id/status', authenticateToken, requireAdmin, async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   const { status } = req.body; // 'MAINTENANCE' | 'RETIRED' | 'AVAILABLE'
 
   try {
@@ -463,7 +463,7 @@ router.put('/:id/status', authenticateToken, requireAdmin, async (req, res) => {
 });
 // Hard delete an asset (Admin only, requires 0 assignments)
 router.delete('/:id', authenticateToken, requireAdmin, async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   try {
     const asset = await prisma.asset.findUnique({
       where: { id },

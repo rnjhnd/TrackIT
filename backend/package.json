@@ -10,6 +10,9 @@
     "seed": "tsx src/seed.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "prisma": {
+    "seed": "tsx src/seed.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
