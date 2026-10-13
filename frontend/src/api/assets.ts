@@ -37,7 +37,7 @@ export const assetApi = {
   },
 
   getStats: async (): Promise<AssetStats> => {
-    const response = await apiClient.get<AssetStats>('/api/assets/totals');
+    const response = await apiClient.get<AssetStats>('/api/assets/stats');
     return response.data;
   },
 
