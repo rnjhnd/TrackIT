@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Server, Key, Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 import { authApi } from '../api';
 import { ModalShell } from '../components/common';
 
@@ -39,8 +40,12 @@ const Login: React.FC = () => {
       login(data.user, data.token);
       toast.success('LOGGED IN SUCCESSFULLY', { id: 'login-toast' });
       navigate('/');
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Login failed');
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.error || 'Login failed');
+      } else {
+        setError('Login failed');
+      }
     }
   };
 
@@ -64,7 +69,7 @@ const Login: React.FC = () => {
       toast.success('Password reset request sent to Administrators!', { duration: 5000 });
       setIsForgotModalOpen(false);
       setForgotEmployeeId('');
-    } catch (err) {
+    } catch {
       toast.error('Failed to send reset request');
     } finally {
       setIsSubmittingForgot(false);

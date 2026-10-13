@@ -49,6 +49,21 @@ export interface AssetAuditLog {
   };
 }
 
+export interface CategoryStat {
+  name: string;
+  value: number;
+}
+
+export interface AgingStat {
+  year: string;
+  count: number;
+}
+
+export interface TimelineStat {
+  month: string;
+  assignments: number;
+}
+
 export interface AssetStats {
   inStorage?: number;
   available?: number;
@@ -56,9 +71,9 @@ export interface AssetStats {
   maintenance: number;
   retired: number;
   total: number;
-  categoryStats?: any[];
-  agingStats?: any[];
-  timelineStats?: any[];
+  categoryStats?: CategoryStat[];
+  agingStats?: AgingStat[];
+  timelineStats?: TimelineStat[];
 }
 
 export interface CreateAssetPayload {

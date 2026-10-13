@@ -16,7 +16,7 @@ const isTokenExpired = (token: string) => {
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
     return payload.exp * 1000 < Date.now();
-  } catch (e) {
+  } catch {
     return true;
   }
 };
@@ -90,6 +90,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
